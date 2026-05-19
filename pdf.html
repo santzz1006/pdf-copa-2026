@@ -27,7 +27,6 @@
 <body>
 
   <!-- ── Camadas de textura (renderizadas pelo CSS, não lidas por leitores de tela) ── -->
-  <div class="bg-pattern-layer" id="bgPatternLayer" aria-hidden="true"></div>
   <div class="noise-layer"  aria-hidden="true"></div>
   <div class="grain-layer"  aria-hidden="true"></div>
   <div class="spotlight"    aria-hidden="true"></div>
@@ -511,6 +510,8 @@
     <!-- ── POR DENTRO DO DRIVE ────────────────────────── -->
     <section class="inside-section section-shell" aria-labelledby="insideHeading">
 
+      <div class="bg-pattern-layer" aria-hidden="true"></div>
+
       <div class="inside-header" data-reveal-group>
         <div>
           <h2 class="reveal-item" id="insideHeading">
@@ -801,6 +802,8 @@
     <section class="offer-section section-shell" id="checkout" aria-labelledby="offerHeading">
 
       <div class="offer-card premium-card" data-reveal-group>
+
+        <div class="bg-pattern-layer" aria-hidden="true"></div>
 
         <div class="offer-copy">
           <h2 class="reveal-item" id="offerHeading">

@@ -275,10 +275,7 @@ h1, h2, h3, h4, h5, h6 {
    ────────────────────────────────────────────────────────────── */
 .bg-pattern-layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 100%;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -286,11 +283,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .bg-pattern-item {
   position: absolute;
-  width: clamp(38px, 5vw, 72px);
+  width: clamp(35px, 6vw, 65px);
   height: auto;
-  opacity: 0.12;
+  opacity: 0.06;
   pointer-events: none;
-  user-select: none;
 }
 
 .noise-layer,
@@ -2087,6 +2083,14 @@ input[type="range"]::-moz-range-thumb {
   line-height: 1.7;
 }
 
+.inside-header,
+.drive-tabs,
+.offer-copy,
+.price-box {
+  position: relative;
+  z-index: 1;
+}
+
 /* Drive tabs */
 .drive-tabs {
   padding: 0;
@@ -3265,7 +3269,6 @@ input[type="range"]::-moz-range-thumb {
    ────────────────────────────────────────────────────────────── */
 .scroll-skew {
   will-change: transform;
-  transition: transform 0.1s linear;
 }
 
 /* ──────────────────────────────────────────────────────────────

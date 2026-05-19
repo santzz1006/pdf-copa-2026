@@ -958,50 +958,36 @@
   }
 
   function initBackgroundPattern() {
-    const layer = document.getElementById('bgPatternLayer');
-    if (!layer || layer.children.length) return;
+    const layers = document.querySelectorAll('.bg-pattern-layer');
+    if (!layers.length) return;
 
     const images = ['fundo1.png', 'fundo2.png', 'fundo3.png', 'fundo4.png', 'fundo5.png'];
-    const itemCount = 180;
-    const fragment = document.createDocumentFragment();
-    const docHeight = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-      window.innerHeight
-    );
 
-    layer.style.height = `${docHeight}px`;
+    layers.forEach(layer => {
+      if (layer.children.length) return;
 
-    const syncLayerHeight = () => {
-      const nextHeight = Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight,
-        window.innerHeight
-      );
-      layer.style.height = `${nextHeight}px`;
-    };
+      const fragment = document.createDocumentFragment();
 
-    for (let i = 0; i < itemCount; i++) {
-      const item = document.createElement('img');
-      const src = images[Math.floor(Math.random() * images.length)];
-      const left = Math.random() * 100;
-      const top = Math.random() * docHeight;
-      const rotation = Math.random() * 360;
+      for (let i = 0; i < 30; i++) {
+        const img = document.createElement('img');
+        const randomImg = images[Math.floor(Math.random() * images.length)];
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+        const rot = Math.random() * 360;
 
-      item.className = 'bg-pattern-item';
-      item.src = src;
-      item.alt = '';
-      item.decoding = 'async';
-      item.style.left = `${left}%`;
-      item.style.top = `${top}px`;
-      item.style.transform = `rotate(${rotation}deg)`;
+        img.src = randomImg;
+        img.className = 'bg-pattern-item';
+        img.alt = '';
+        img.decoding = 'async';
+        img.style.left = `${left}%`;
+        img.style.top = `${top}%`;
+        img.style.transform = `rotate(${rot}deg)`;
 
-      fragment.appendChild(item);
-    }
+        fragment.appendChild(img);
+      }
 
-    layer.appendChild(fragment);
-    window.addEventListener('load', syncLayerHeight, { once: true });
-    window.addEventListener('resize', syncLayerHeight);
+      layer.appendChild(fragment);
+    });
   }
 
   /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
