@@ -281,11 +281,21 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
+.bg-pattern-layer--global {
+  top: 0;
+  left: 0;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
+
 .bg-pattern-item {
   position: absolute;
   width: clamp(35px, 6vw, 65px);
   height: auto;
-  opacity: 0.06;
+  opacity: 0.1;
   pointer-events: none;
 }
 

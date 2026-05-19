@@ -967,12 +967,23 @@
       if (layer.children.length) return;
 
       const fragment = document.createDocumentFragment();
+      const isGlobal = layer.classList.contains('bg-pattern-layer--global');
+      const count = isGlobal ? 280 : 48;
+      const docHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        window.innerHeight
+      );
 
-      for (let i = 0; i < 30; i++) {
+      if (isGlobal) {
+        layer.style.height = `${docHeight}px`;
+      }
+
+      for (let i = 0; i < count; i++) {
         const img = document.createElement('img');
         const randomImg = images[Math.floor(Math.random() * images.length)];
         const left = Math.random() * 100;
-        const top = Math.random() * 100;
+        const top = isGlobal ? Math.random() * docHeight : Math.random() * 100;
         const rot = Math.random() * 360;
 
         img.src = randomImg;
@@ -980,7 +991,7 @@
         img.alt = '';
         img.decoding = 'async';
         img.style.left = `${left}%`;
-        img.style.top = `${top}%`;
+        img.style.top = isGlobal ? `${top}px` : `${top}%`;
         img.style.transform = `rotate(${rot}deg)`;
 
         fragment.appendChild(img);
@@ -988,6 +999,21 @@
 
       layer.appendChild(fragment);
     });
+
+    const syncGlobalLayerHeight = () => {
+      const globalLayer = document.querySelector('.bg-pattern-layer--global');
+      if (!globalLayer) return;
+
+      const nextHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        window.innerHeight
+      );
+      globalLayer.style.height = `${nextHeight}px`;
+    };
+
+    window.addEventListener('load', syncGlobalLayerHeight, { once: true });
+    window.addEventListener('resize', syncGlobalLayerHeight);
   }
 
   /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
