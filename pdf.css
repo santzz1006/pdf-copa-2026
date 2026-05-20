@@ -123,6 +123,7 @@
   /* Layout */
   --max-w:     1280px;
   --header-h:  64px;
+  --scarcity-h: 34px;
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -139,8 +140,8 @@ html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  overflow-x: hidden;
-  scroll-padding-top: calc(var(--header-h) + 8px);
+  overflow-x: clip;
+  scroll-padding-top: calc(var(--scarcity-h) + var(--header-h) + 8px);
 }
 
 body {
@@ -150,7 +151,7 @@ body {
   line-height: 1.65;
   color: var(--ink-mid);
   background: var(--white);
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
   isolation: isolate;
   -webkit-font-smoothing: antialiased;
@@ -350,7 +351,7 @@ h1, h2, h3, h4, h5, h6 {
    ────────────────────────────────────────────────────────────── */
 .scroll-meter {
   position: fixed;
-  top: 0;
+  top: var(--scarcity-h);
   left: 0;
   width: 100%;
   height: 3px;
@@ -518,9 +519,48 @@ h1, h2, h3, h4, h5, h6 {
 /* ──────────────────────────────────────────────────────────────
    6. SITE HEADER
    ────────────────────────────────────────────────────────────── */
-.site-header {
+.scarcity-bar {
   position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  height: var(--scarcity-h);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  padding: 0 1rem;
+  overflow: hidden;
+  background: #2a0808;
+  color: #ff8c8c;
+  border-bottom: 1px solid rgba(255, 140, 140, 0.22);
+  box-shadow: 0 6px 22px rgba(42, 8, 8, 0.28);
+  font-family: var(--font-accent);
+  font-size: clamp(0.7rem, 2.7vw, 0.9rem);
+  font-weight: var(--fw-regular);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.scarcity-bar .bolt {
+  color: #ffd21f;
+  filter: drop-shadow(0 0 8px rgba(255, 210, 31, 0.45));
+}
+
+.scarcity-bar strong {
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 12px rgba(255, 140, 140, 0.35);
+}
+
+.site-header {
+  position: fixed;
+  top: var(--scarcity-h);
   left: 0;
   right: 0;
   height: var(--header-h);
@@ -611,7 +651,8 @@ h1, h2, h3, h4, h5, h6 {
 .brand-copy {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 2px;
+  min-width: 0;
 }
 
 .brand-copy strong {
@@ -770,7 +811,7 @@ h1, h2, h3, h4, h5, h6 {
    ────────────────────────────────────────────────────────────── */
 .mobile-drawer {
   position: fixed;
-  top: 0;
+  top: var(--scarcity-h);
   right: 0;
   bottom: 0;
   width: min(360px, 88vw);
@@ -1118,7 +1159,7 @@ h1, h2, h3, h4, h5, h6 {
    ────────────────────────────────────────────────────────────── */
 .hero-section {
   min-height: 100svh;
-  padding-top: calc(var(--header-h) + var(--space-12));
+  padding-top: calc(var(--scarcity-h) + var(--header-h) + var(--space-12));
   padding-bottom: var(--space-16);
   display: flex;
   flex-direction: column;
@@ -3588,22 +3629,30 @@ button:focus-visible {
 /* ──────────────────────────────────────────────────────────────
    33. SCROLLBAR — Custom
    ────────────────────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* Aniquila qualquer barra webkit no mobile para usar apenas o scroll nativo suave */
+@media (max-width: 767px) {
+  ::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none !important;
+  }
 }
 
-::-webkit-scrollbar-track {
-  background: var(--surface);
-}
+/* Aplica a barra verde personalizada APENAS no Desktop e no HTML */
+@media (min-width: 768px) {
+  html::-webkit-scrollbar {
+    width: 10px;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--green-400), var(--green-600));
-  border-radius: var(--radius-full);
-}
+  html::-webkit-scrollbar-track {
+    background: var(--surface);
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--green-300), var(--green-500));
+  html::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--green-400), var(--green-600));
+    border-radius: var(--radius-full);
+  }
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -3627,6 +3676,26 @@ button:focus-visible {
 @media (max-width: 374px) {
   :root {
     --header-h: 56px;
+    --scarcity-h: 32px;
+  }
+
+  .scarcity-bar {
+    gap: 0.24rem;
+    padding-inline: 0.35rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.03em;
+  }
+
+  .scarcity-bar strong {
+    letter-spacing: 0.04em;
+  }
+
+  .brand {
+    gap: var(--space-2);
+  }
+
+  .brand-copy small {
+    display: none;
   }
 
   .hero-copy h1 {
@@ -3693,6 +3762,17 @@ button:focus-visible {
    36. RESPONSIVE — MOBILE BASE (375px–599px)
    ────────────────────────────────────────────────────────────── */
 @media (min-width: 375px) and (max-width: 599px) {
+  .scarcity-bar {
+    gap: 0.3rem;
+    padding-inline: 0.5rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+  }
+
+  .scarcity-bar strong {
+    letter-spacing: 0.06em;
+  }
+
   .hero-actions {
     flex-direction: column;
     width: 100%;
@@ -3785,6 +3865,44 @@ button:focus-visible {
 /* ──────────────────────────────────────────────────────────────
    38. RESPONSIVE — TABLET (768px–1023px)
    ────────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-copy {
+    display: contents;
+  }
+
+  .hero-copy .eyebrow {
+    order: 1;
+  }
+
+  .hero-copy h1 {
+    order: 2;
+  }
+
+  .hero-visual {
+    order: 3;
+    margin: var(--space-6) 0;
+  }
+
+  .hero-actions {
+    order: 4;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-subtitle {
+    order: 5;
+    margin-bottom: var(--space-6);
+  }
+
+  .trust-strip {
+    order: 6;
+  }
+}
+
 @media (min-width: 768px) {
   :root {
     --header-h: 68px;
@@ -3807,7 +3925,7 @@ button:focus-visible {
   }
 
   .hero-section {
-    padding-top: calc(var(--header-h) + var(--space-16));
+    padding-top: calc(var(--scarcity-h) + var(--header-h) + var(--space-16));
   }
 
   .hero-content {
@@ -4696,7 +4814,6 @@ body {
 /* Prevent width overflow on all sections */
 section, header, footer, aside, main {
   max-width: 100vw;
-  overflow-x: clip;
 }
 
 /* Ensure z-index stacking is clean */

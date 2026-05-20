@@ -1016,6 +1016,32 @@
     window.addEventListener('resize', syncGlobalLayerHeight);
   }
 
+  function initCountdown() {
+    const timer = document.getElementById('countdownTimer');
+    if (!timer) return;
+
+    const pad = value => String(value).padStart(2, '0');
+
+    const getTodayDeadline = () => {
+      const deadline = new Date();
+      deadline.setHours(23, 59, 59, 999);
+      return deadline.getTime();
+    };
+
+    const update = () => {
+      const remaining = Math.max(0, getTodayDeadline() - Date.now());
+      const hours = Math.floor(remaining / (60 * 60 * 1000));
+      const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+      const seconds = Math.floor((remaining % (60 * 1000)) / 1000);
+
+      timer.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    };
+
+    update();
+    const timerId = setInterval(update, 1000);
+    window.addEventListener('pagehide', () => clearInterval(timerId), { once: true });
+  }
+
   /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    * Â§ 22. PACK LOADER â€” garante que o corpo fica visÃ­vel depois
    * â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -1109,6 +1135,7 @@
     initSpotlight();
     initGalleryParallax();
     initBackgroundPattern();
+    initCountdown();
     initPackLoader();
     initResize();
 
