@@ -3866,9 +3866,14 @@ button:focus-visible {
    38. RESPONSIVE — TABLET (768px–1023px)
    ────────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
+  .hero-section {
+    padding-top: 6rem;
+  }
+
   .hero-content {
     display: flex;
     flex-direction: column;
+    gap: 0;
   }
 
   .hero-copy {
@@ -3885,12 +3890,14 @@ button:focus-visible {
 
   .hero-visual {
     order: 3;
-    margin: var(--space-6) 0;
+    min-height: 280px;
+    margin: 0 0 1rem 0;
   }
 
   .hero-actions {
     order: 4;
-    margin-bottom: var(--space-4);
+    margin-top: 0;
+    margin-bottom: 2rem;
   }
 
   .hero-subtitle {
